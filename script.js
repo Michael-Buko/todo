@@ -1,8 +1,36 @@
+const todos = [
+    {
+        id: 1,
+        text: 'Watch TV',
+        isCompleted: false,
+        date: new Date().toLocaleDateString()
+    },
+    {
+        id: 2,
+        text: 'Play games',
+        isCompleted: true,
+        date: new Date().toLocaleDateString()
+    },
+    {
+        id: 3,
+        text: 'Learn Front-end',
+        isCompleted: false,
+        date: new Date().toLocaleDateString()
+    }
+]
+
 // INIT_APP
 function app() {
     const root = document.querySelector('#root')
     const header = createHeader()
-    root.append(header)
+    const todoList = createTodoList(todos)
+
+    header.addEventListener('click', event => onHeaderClick(event))
+    todoList.addEventListener('click', event => onTodoListClick(event))
+    root.append(header, todoList)
+    inputSearch.addEventListener('input', event => onSearchChange(event))
+
+    document.getElementById('field').focus()
 }
 
 app()
@@ -105,6 +133,7 @@ function createHeader() {
     const buttonAdd = createElement('button', 'btn btn-info border border-3 border-dark flex-shrink-0', 'Add')
     const buttonDeleteAll = createElement('button', 'btn btn-danger border border-3 border-dark flex-shrink-0', 'Delete All')
     const buttonDeleteLast = createElement('button', 'btn btn-danger border border-3 border-dark flex-shrink-0', 'Delete Last')
+    const textStatistics = createElement('span', 'flex-shrink-0', statistics())
     const buttonShowAll = createElement('button', 'btn btn-info border border-3 border-dark flex-shrink-0', 'Show All')
     const buttonShowCompleted = createElement('button', 'btn btn-info border border-3 border-dark flex-shrink-0', 'Show Completed')
     const inputSearch = createElement('input', 'form-control flex-grow-1 border border-3 border-dark', '')
@@ -116,9 +145,11 @@ function createHeader() {
     buttonShowAll.id = 'buttonShowAll'
     buttonShowCompleted.id = 'buttonShowCompleted'
     inputSearch.id = 'inputSearch'
+    textStatistics.id = 'textStatistics'
+
 
     lineUp.append(buttonDeleteAll, buttonDeleteLast, input, buttonAdd)
-    lineDown.append(buttonShowAll, buttonShowCompleted, inputSearch)
+    lineDown.append(textStatistics, buttonShowAll, buttonShowCompleted, inputSearch)
     header.append(lineUp, lineDown)
     return header
 }
@@ -165,4 +196,12 @@ function createElement(tag, className, text = '') {
     element.textContent = text
 
     return element
+}
+
+function statistics() {
+    const statAll = todos.reduce((accumulator, todo) => {
+        if (todo.isCompleted) { accumulator++ }
+        return accumulator
+    }, 0)
+    return `All: ${todos.length} Completed: ${statAll}`
 }
