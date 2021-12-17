@@ -5,8 +5,12 @@
 </h4>
 
 <div align="center">
-  <img src="assets/demo.png" width="80%" />
+  <img src="assets/demo.png" width="30%" />
 </div>
+
+## Demo
+
+[Demo Todo list](https://michael-buko.github.io/todo/)
 
 ## About this project
 
